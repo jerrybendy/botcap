@@ -1,0 +1,14 @@
+{
+  "name": "electron-broswer",
+  "version": "0.0.1",
+  "description": "A simple broswer build by electron",
+  "main": "app/background-process/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jerry Bendy <jerry@icewingcc.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^3.0.5"
+  }
+}
