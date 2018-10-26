@@ -1,5 +1,5 @@
 {
-  "name": "electron-broswer",
+  "name": "botcap",
   "version": "0.0.1",
   "description": "A simple broswer build by electron",
   "main": "app/background-process/main.js",
@@ -9,6 +9,7 @@
   "author": "Jerry Bendy <jerry@icewingcc.com>",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^3.0.5"
+    "electron": "^3.0.5",
+    "pauls-electron-rpc": "^4.1.3"
   }
 }

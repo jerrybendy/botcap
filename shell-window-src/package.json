@@ -7,27 +7,16 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "iview": "^3.0.1",
     "vue": "^2.5.17",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@babel/helper-module-imports": "^7.0.0",
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
-    "babel-plugin-import": "^1.8.0",
-    "vue-cli-plugin-iview": "^1.0.6",
     "vue-template-compiler": "^2.5.17"
   },
   "babel": {
-    "plugins": [
-      [
-        "import",
-        {
-          "libraryName": "iview",
-          "libraryDirectory": "src/components"
-        }
-      ]
-    ],
     "presets": [
       "@vue/app"
     ]
