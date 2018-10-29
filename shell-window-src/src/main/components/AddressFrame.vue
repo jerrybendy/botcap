@@ -9,12 +9,14 @@
       <span class="address-path">/jerrybendy/iw-player/blob/master/package.json</span>
     </div>
     <div class="address-url address-url-edit">
-      <input type="text" class="address-input" v-model="inputValue" @keypress="onInputKeyPress">
+      <input type="text" class="address-input" v-model="inputValue" @keypress="onInputKeyPress" @contextmenu.prevent="onInputContextMenu">
     </div>
   </div>
 </template>
 
 <script>
+  import {remote} from 'electron'
+
   export default {
     name: "AddressFrame",
     props: {
@@ -39,7 +41,19 @@
             srcUrl: this.inputValue,
           })
         }
-      }
+      },
+      onInputContextMenu() {
+        const webContents = remote.getCurrentWindow().webContents
+        const menu = remote.Menu.buildFromTemplate([
+          {label: '剪切', click() {webContents.cut()}},
+          {label: '复制', click() {webContents.copy()}},
+          {label: '粘贴', click() {webContents.pasteAndMatchStyle()}},
+          {type: 'separator'},
+          {label: '选择全部', click() {webContents.selectAll()}},
+        ])
+
+        menu.popup({window: remote.getCurrentWindow()})
+      },
     },
     watch: {
       url(newVal) {

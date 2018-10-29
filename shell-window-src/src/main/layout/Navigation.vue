@@ -8,17 +8,19 @@
       :url="currentPage.url"
     ></address-frame>
 
-    <button class="op-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M296 136c0-22.002-17.998-40-40-40s-40 17.998-40 40 17.998 40 40 40 40-17.998 40-40zm0 240c0-22.002-17.998-40-40-40s-40 17.998-40 40 17.998 40 40 40 40-17.998 40-40zm0-120c0-22.002-17.998-40-40-40s-40 17.998-40 40 17.998 40 40 40 40-17.998 40-40z" fill="#5f6368"/></svg></button>
+    <main-menu-button></main-menu-button>
   </nav>
 </template>
 
 <script>
   import AddressFrame from '../components/AddressFrame'
+  import MainMenuButton from '../components/MainMenuButton'
 
   export default {
     name: "Navigation",
     components: {
       AddressFrame,
+      MainMenuButton,
     },
     computed: {
       currentPage() {
