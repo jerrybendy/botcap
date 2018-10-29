@@ -1,21 +1,50 @@
 <template>
   <div id="tabs">
     <div class="tab-content">
-      <div class="tab active">
-        <img src="https://file.iviewui.com/file/favicon.ico" alt="" class="tab-favicon">
-        <p class="tab-title">标签页 Tabs - View</p>
-        <button class="tab-close" data-id="1234"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M405 136.798L375.202 107 256 226.202 136.798 107 107 136.798 226.202 256 107 375.202 136.798 405 256 285.798 375.202 405 405 375.202 285.798 256z" fill="#5f6368"/></svg></button>
-      </div>
+      <tab v-for="page in pages"
+           :key="page.id"
+           :page="page"
+           :is-active="page.id === currentPageId"
+           @on-close="closePage"
+           @on-tab-click="onTabClick"
+      ></tab>
 
-      <button id="add-tab" class="add-tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 277.333H277.333V416h-42.666V277.333H96v-42.666h138.667V96h42.666v138.667H416v42.666z" fill="#5f6368"/></svg></button>
+      <button id="add-tab" class="add-tab" @click="addBlankPage"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M416 277.333H277.333V416h-42.666V277.333H96v-42.666h138.667V96h42.666v138.667H416v42.666z" fill="#5f6368"/></svg></button>
     </div>
   </div>
 </template>
 
 <script>
-    export default {
-        name: "Tabs"
+  import Tab from '../components/Tab'
+
+  export default {
+    name: "Tabs",
+    components: {
+      Tab,
+    },
+    computed: {
+      pages() {
+        return this.$store.state.pages
+      },
+      currentPageId() {
+        return this.$store.state.currentPageId
+      }
+    },
+    methods: {
+      addBlankPage() {
+        this.$store.dispatch('ADD_NEW_PAGE', {
+          srcUrl: '',
+          isNavigate: true,
+        })
+      },
+      closePage(id) {
+        this.$store.dispatch('CLOSE_PAGE', {id})
+      },
+      onTabClick(id) {
+        this.$store.commit('SET_CURRENT_PAGE_ID', id)
+      }
     }
+  }
 </script>
 
 <style>

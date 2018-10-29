@@ -2,18 +2,21 @@
   <div id="app">
     <tabs></tabs>
     <navigation></navigation>
+    <webview-container></webview-container>
   </div>
 </template>
 
 <script>
-  import Tabs from './components/Tabs'
-  import Navigation from './components/Navigation'
+  import Tabs from './layout/Tabs'
+  import Navigation from './layout/Navigation'
+  import WebviewContainer from './layout/WebviewContainer'
 
   export default {
     name: 'app',
     components: {
       Tabs,
       Navigation,
+      WebviewContainer,
     },
     computed: {
 
