@@ -52,9 +52,10 @@
   #tabs {
     padding: 8px 8px 0;
     background: #dee1e6;
+    -webkit-app-region: drag;
   }
 
-  .darwin #tabs {
+  .darwin:not(.fullscreen) #tabs {
     padding-left: 78px;
   }
 
@@ -73,6 +74,7 @@
     padding: 0 8px 0 12px;
     border-radius: 8px 8px 0 0;
     transition: background .2s linear;
+    -webkit-app-region: no-drag;
   }
 
   #tabs .tab:not(.active):not(:hover):after {
@@ -142,6 +144,7 @@
     margin: 0 8px;
     border-radius: 50%;
     transition: background .2s linear;
+    -webkit-app-region: no-drag;
   }
 
   #tabs .add-tab:hover {

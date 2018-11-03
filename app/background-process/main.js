@@ -1,5 +1,8 @@
-const {app, BrowserWindow, Menu} = require('electron')
+const electron = require('electron')
 const registerProtocols = require('./utils/registerProtocols')
+
+const {app, BrowserWindow, Menu} = electron
+
 
 let win = null
 
@@ -16,7 +19,7 @@ app.on('ready', function () {
     win.webContents.openDevTools()
 
   } else {
-    win.loadURL(`file://${__dirname}/../shell-window/index.html?platform=${process.platform}`)
+    win.loadURL(`file://${__dirname}/../renderer/main.html?platform=${process.platform}`)
   }
 
   win.on('closed', function () {
@@ -38,10 +41,11 @@ app.on('window-all-closed', () => {
 registerProtocols()
 
 function createWindow() {
+  const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
   win = new BrowserWindow({
     title: 'Electron Browser',
-    width: 800,
-    height: 600,
+    width,
+    height,
     resizable: true,
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#FFFFFF',
