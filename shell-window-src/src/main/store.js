@@ -12,6 +12,7 @@ export default new Vuex.Store({
         favicon: '',
         url: 'botcap://blank',
         srcUrl: 'botcap://blank',
+        isLoading: false,
       },
     ],
 
@@ -43,7 +44,9 @@ export default new Vuex.Store({
         id,
         title: '',
         favicon: '',
+        url: srcUrl,
         srcUrl,
+        isLoading: false,
       })
       if (isNavigate) {
         context.commit('SET_CURRENT_PAGE_ID', id)

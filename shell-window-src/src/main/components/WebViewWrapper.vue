@@ -8,6 +8,8 @@
            @page-favicon-updated="pageFaviconUpdated"
            @did-navigate-in-page="didNavigateInPage"
            @new-window="newWindow"
+           @did-start-loading="didStartLoading"
+           @did-stop-loading="didStopLoading"
   ></webview>
 </template>
 
@@ -32,6 +34,7 @@
           id: this.id,
           title: webview.getTitle(),
           url: webview.getURL(),
+          isLoading: false,
         })
       },
       pageTitleUpdated(event) {
@@ -63,7 +66,18 @@
           srcUrl: event.url,
           isNavigate,
         })
-        console.log(event);
+      },
+      didStartLoading() {
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          isLoading: true,
+        })
+      },
+      didStopLoading() {
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          isLoading: false,
+        })
       }
     }
   }

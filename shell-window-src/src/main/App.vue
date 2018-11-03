@@ -50,4 +50,15 @@
     user-select: text;
   }
 
+  @keyframes rotate {
+    0% {
+      transform: rotate(0);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 </style>

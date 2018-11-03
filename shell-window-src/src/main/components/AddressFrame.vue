@@ -34,7 +34,6 @@
     },
     methods: {
       onInputKeyPress(event) {
-        console.log(event);
         if (event.keyCode === 13) {
           this.$store.commit('UPDATE_PAGE', {
             id: this.currentPageId,
