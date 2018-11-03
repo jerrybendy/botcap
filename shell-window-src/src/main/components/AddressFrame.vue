@@ -1,6 +1,6 @@
 <template>
   <div class="address" :class="{active: isActive}">
-    <div class="security-identifier is-security"></div>
+    <div class="security-identifier" :class="securityIdentifierClass"></div>
     <hr class="address-separate">
     <div class="address-url address-url-view" ref="addressUrlView">
       <span class="address-protocol">{{ urlPart.protocol }}</span>
@@ -46,6 +46,12 @@
           return {}
         }
       },
+      securityIdentifierClass() {
+        const protocol = this.urlPart.protocol || ''
+        return {
+          'is-security': protocol === 'https:'
+        }
+      }
     },
     mounted() {
       document.addEventListener('click', this.onDocumentClick, false)
