@@ -1,15 +1,16 @@
 <template>
-  <div class="address active">
+  <div class="address" :class="{active: isActive}">
     <div class="security-identifier is-security"></div>
     <hr class="address-separate">
-    <div class="address-url address-url-view">
-      <span class="address-protocol">https</span>
-      <span class="address-slash">://</span>
-      <span class="address-host">www.baidu.com</span>
-      <span class="address-path">/jerrybendy/iw-player/blob/master/package.json</span>
+    <div class="address-url address-url-view" ref="addressUrlView">
+      <span class="address-protocol">{{ urlPart.protocol }}</span>
+      <span class="address-slash">//</span>
+      <span class="address-path" v-show="urlPart.auth">{{ urlPart.auth }}</span>
+      <span class="address-host">{{ urlPart.host }}</span>
+      <span class="address-path">{{ urlPart.path }}</span>
     </div>
     <div class="address-url address-url-edit">
-      <input type="text" class="address-input" v-model="inputValue" @keypress="onInputKeyPress" @contextmenu.prevent="onInputContextMenu">
+      <input type="text" class="address-input" ref="addressInput" v-model="inputValue" @keypress="onInputKeyPress" @contextmenu.prevent="onInputContextMenu">
     </div>
   </div>
 </template>
@@ -25,12 +26,28 @@
     data() {
       return {
         inputValue: this.url,
+        isActive: false,
       }
     },
     computed: {
       currentPageId() {
         return this.$store.state.currentPageId
-      }
+      },
+      urlPart() {
+        const _url = new URL(this.url)
+        return {
+          protocol: _url.protocol,
+          auth: _url.username ? (_url.username + (_url.password ? ':' + _url.password : '')) + '@' : '',
+          host: _url.host,
+          path: _url.pathname + _url.search + _url.hash
+        }
+      },
+    },
+    mounted() {
+      document.addEventListener('click', this.onDocumentClick, false)
+    },
+    beforeDestroy() {
+      document.removeEventListener('click', this.onDocumentClick, false)
     },
     methods: {
       onInputKeyPress(event) {
@@ -52,6 +69,20 @@
         ])
 
         menu.popup({window: remote.getCurrentWindow()})
+      },
+      onDocumentClick(event) {
+        let target = event.target
+
+        while(target.tagName !== 'BODY') {
+          if (target === this.$refs.addressUrlView || target === this.$refs.addressInput) {
+            this.isActive = true
+            break
+          }
+          target = target.parentNode
+        }
+        if (target.tagName === 'BODY') {
+          this.isActive = false
+        }
       },
     },
     watch: {

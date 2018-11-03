@@ -6,6 +6,7 @@
            @did-finish-load="didFinishLoad"
            @page-title-updated="pageTitleUpdated"
            @page-favicon-updated="pageFaviconUpdated"
+           @did-navigate="didNavigate"
            @did-navigate-in-page="didNavigateInPage"
            @new-window="newWindow"
            @did-start-loading="didStartLoading"
@@ -25,9 +26,27 @@
       }
     },
     mounted() {
-
+      this.$root.$on('navigate', this.doNavigate)
+    },
+    beforeDestroy() {
+      this.$root.$off('navigate', this.doNavigate)
     },
     methods: {
+      doNavigate(method) {
+        if (!this.isActive) {
+          return
+        }
+        switch (method) {
+          case 'BACK':
+            this.$refs.webview.goBack()
+            break
+          case 'FORWARD':
+            this.$refs.webview.goForward()
+            break
+          case 'REFRESH':
+            this.$refs.webview.reload()
+        }
+      },
       didFinishLoad() {
         const webview = this.$refs.webview
         this.$store.commit('UPDATE_PAGE', {
@@ -49,15 +68,27 @@
           favicon: event.favicons[0] || '',
         })
       },
+      didNavigate(event) {
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          url: event.url,
+          canGoBack: this.$refs.webview.canGoBack(),
+          canGoForward: this.$refs.webview.canGoForward(),
+        })
+      },
       didNavigateInPage(event) {
         if (event.isMainFrame) {
           this.$store.commit('UPDATE_PAGE', {
             id: this.id,
             url: event.url,
+            canGoBack: this.$refs.webview.canGoBack(),
+            canGoForward: this.$refs.webview.canGoForward(),
           })
         }
       },
       newWindow(event) {
+        if (event.url === 'about:blank') return
+
         let isNavigate = true
         if (event.disposition === 'background-tab') {
           isNavigate = false

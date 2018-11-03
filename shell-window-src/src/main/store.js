@@ -13,6 +13,8 @@ export default new Vuex.Store({
         url: 'botcap://blank',
         srcUrl: 'botcap://blank',
         isLoading: false,
+        canGoBack: false,
+        canGoForward: false,
       },
     ],
 
@@ -47,6 +49,8 @@ export default new Vuex.Store({
         url: srcUrl,
         srcUrl,
         isLoading: false,
+        canGoBack: false,
+        canGoForward: false,
       })
       if (isNavigate) {
         context.commit('SET_CURRENT_PAGE_ID', id)
