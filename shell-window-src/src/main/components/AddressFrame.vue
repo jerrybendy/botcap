@@ -34,12 +34,16 @@
         return this.$store.state.currentPageId
       },
       urlPart() {
-        const _url = new URL(this.url)
-        return {
-          protocol: _url.protocol,
-          auth: _url.username ? (_url.username + (_url.password ? ':' + _url.password : '')) + '@' : '',
-          host: _url.host,
-          path: _url.pathname + _url.search + _url.hash
+        try {
+          const _url = new URL(this.url)
+          return {
+            protocol: _url.protocol,
+            auth: _url.username ? (_url.username + (_url.password ? ':' + _url.password : '')) + '@' : '',
+            host: _url.host,
+            path: _url.pathname + _url.search + _url.hash
+          }
+        } catch (e) {
+          return {}
         }
       },
     },

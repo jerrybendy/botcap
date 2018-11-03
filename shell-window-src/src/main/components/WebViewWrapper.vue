@@ -11,10 +11,13 @@
            @new-window="newWindow"
            @did-start-loading="didStartLoading"
            @did-stop-loading="didStopLoading"
+           @dom-ready.once="domReady"
   ></webview>
 </template>
 
 <script>
+  import {remote, clipboard} from 'electron'
+
   export default {
     name: "WebViewWrapper",
     props: {
@@ -32,6 +35,9 @@
       this.$root.$off('navigate', this.doNavigate)
     },
     methods: {
+      domReady() {
+        this.$refs.webview.getWebContents().on('context-menu', this.onContextMenu)
+      },
       doNavigate(method) {
         if (!this.isActive) {
           return
@@ -109,7 +115,48 @@
           id: this.id,
           isLoading: false,
         })
-      }
+      },
+      onContextMenu(event, params) {
+        const self = this,
+          $webview = this.$refs.webview,
+          editFlags = params.editFlags,
+          menuItems = []
+
+        if (params.linkURL) {
+          menuItems.push({label: '在新标签页中打开链接', click() {
+            self.$store.dispatch('ADD_NEW_PAGE', {srcUrl: params.linkURL, isNavigate: true,})
+          }})
+          menuItems.push({label: '复制链接地址', click() {clipboard.writeText(params.linkURL)}})
+          menuItems.push({type: 'separator'})
+        }
+
+        if (params.hasImageContents) {
+          menuItems.push({label: '在新标签页中打开图片', click() {
+            self.$store.dispatch('ADD_NEW_PAGE', {srcUrl: params.srcURL, isNavigate: true,})
+          }})
+
+          menuItems.push({label: '复制图片地址', click() {clipboard.writeText(params.srcURL)}})
+          menuItems.push({type: 'separator'})
+        }
+
+        if (editFlags.canCopy || editFlags.canPaste) {
+          if (editFlags.canCut) menuItems.push({label: '剪切', role: 'cut'})
+          if (editFlags.canCopy) menuItems.push({label: '复制', role: 'copy'})
+          if (editFlags.canPaste) menuItems.push({label: '粘贴', role: 'paste'})
+          if (editFlags.canSelectAll) menuItems.push({label: '选择全部', role: 'selectAll'})
+          menuItems.push({type: 'separator'})
+        }
+
+        menuItems.push({label: '后退', enabled: $webview.canGoBack(), click() {$webview.goBack()}})
+        menuItems.push({label: '前进', enabled: $webview.canGoForward(), click() {$webview.goForward()}})
+        menuItems.push({label: '重新加载', click() {$webview.reload()}})
+        menuItems.push({type: 'separator'})
+
+        menuItems.push({label: '查看元素', click() {$webview.inspectElement(params.x, params.y)}})
+
+        const menu = remote.Menu.buildFromTemplate(menuItems)
+        menu.popup({window: remote.getCurrentWindow()})
+      },
     }
   }
 </script>
