@@ -2,6 +2,8 @@ import Vue from 'vue'
 import {remote} from 'electron'
 import App from './App.vue'
 import store from './store'
+import mainMenu from './modules/mainMenu'
+import messageBus from './modules/messageBus'
 
 const browserWindow = remote.getCurrentWindow()
 
@@ -17,6 +19,11 @@ browserWindow.on('enter-full-screen', function() {
 browserWindow.on('leave-full-screen', function() {
   document.body.classList.remove('fullscreen')
 })
+
+// register modules
+messageBus.register()
+mainMenu.register()
+
 
 new Vue({
   store,

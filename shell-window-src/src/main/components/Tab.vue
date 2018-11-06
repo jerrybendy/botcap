@@ -31,6 +31,7 @@
         const menu = remote.Menu.buildFromTemplate([
           {
             label: '打开新的标签页',
+            accelerator: 'CommandOrControl+N',
             click() {
               self.$store.dispatch('ADD_NEW_PAGE', {
                 srcUrl: '',
@@ -43,12 +44,14 @@
           },
           {
             label: '重新加载',
+            accelerator: 'CommandOrControl+R',
             click() {
-
+              self.messageBus.$emit('navigate', 'REFRESH')
             }
           },
           {
             label: '关闭标签页',
+            accelerator: 'CommandOrControl+W',
             click() {
               self.onClose()
             }

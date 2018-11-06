@@ -29,10 +29,10 @@
       }
     },
     mounted() {
-      this.$root.$on('navigate', this.doNavigate)
+      this.messageBus.$on('navigate', this.doNavigate)
     },
     beforeDestroy() {
-      this.$root.$off('navigate', this.doNavigate)
+      this.messageBus.$off('navigate', this.doNavigate)
     },
     methods: {
       domReady() {
@@ -149,7 +149,7 @@
 
         menuItems.push({label: '后退', enabled: $webview.canGoBack(), click() {$webview.goBack()}})
         menuItems.push({label: '前进', enabled: $webview.canGoForward(), click() {$webview.goForward()}})
-        menuItems.push({label: '重新加载', click() {$webview.reload()}})
+        menuItems.push({label: '重新加载', accelerator: 'CommandOrControl+R', click() {$webview.reload()}})
         menuItems.push({type: 'separator'})
 
         menuItems.push({label: '查看元素', click() {$webview.inspectElement(params.x, params.y)}})

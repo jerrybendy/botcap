@@ -1,7 +1,7 @@
 const electron = require('electron')
 const registerProtocols = require('./utils/registerProtocols')
 
-const {app, BrowserWindow, Menu} = electron
+const {app, BrowserWindow} = electron
 
 
 let win = null
@@ -11,8 +11,8 @@ const DEV_MODE = process.argv.indexOf('--devMode') >= 0
 app.on('ready', function () {
   createWindow()
 
-  // Remove menus for windows and linux
-  Menu.setApplicationMenu(null)
+  // Hide menus on windows and linux
+  win.setMenuBarVisibility(false)
 
   if (DEV_MODE) {
     win.loadURL('http://localhost:8080/main.html?platform=' + process.platform)
@@ -47,6 +47,7 @@ function createWindow() {
     width,
     height,
     resizable: true,
+    // frame: process.platform !== 'win32',
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#FFFFFF',
   })

@@ -29,13 +29,13 @@
     },
     methods: {
       goBack() {
-        this.$root.$emit('navigate', 'BACK')
+        this.messageBus.$emit('navigate', 'BACK')
       },
       goForward() {
-        this.$root.$emit('navigate', 'FORWARD')
+        this.messageBus.$emit('navigate', 'FORWARD')
       },
       refresh() {
-        this.$root.$emit('navigate', 'REFRESH')
+        this.messageBus.$emit('navigate', 'REFRESH')
       }
     }
   }
