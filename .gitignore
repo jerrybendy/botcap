@@ -21,3 +21,6 @@ yarn-error.log*
 
 # built by vue
 /app/renderer/
+
+# dist
+/dist

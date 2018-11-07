@@ -1,0 +1,11 @@
+{
+  "name": "botcap",
+  "version": "0.0.1",
+  "description": "A simple broswer build by electron",
+  "main": "background-process/main.js",
+  "author": {
+    "name": "Jerry Bendy ",
+    "email": "jerry@icewingcc.com"
+  },
+  "license": "MIT"
+}

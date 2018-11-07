@@ -5,12 +5,21 @@
   "main": "app/background-process/main.js",
   "scripts": {
     "dev": "electron . --devMode",
-    "start": "electron . "
+    "start": "electron . ",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "buildForMac": "electron-builder --mac",
+    "buildForWindows": "electron-builder --win",
+    "postinstall": "electron-builder install-app-deps"
   },
-  "author": "Jerry Bendy <jerry@icewingcc.com>",
+  "author": {
+    "name": "Jerry Bendy ",
+    "email": "jerry@icewingcc.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "electron": "^3.0.5",
+    "electron-builder": "^20.31.2",
     "pauls-electron-rpc": "^4.1.3"
   }
 }

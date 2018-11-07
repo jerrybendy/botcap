@@ -1,0 +1,17 @@
+{
+  "appId": "cc.icewing.botcap",
+  "productName": "Botcap",
+  "asar": false,
+  "directories": {
+    "output": "dist",
+    "app": "app"
+  },
+  "win": {
+    "target": ["zip", "nsis"]
+  },
+  "mac": {
+    "category": "public.app-category.navigation",
+    "target": "dmg",
+    "icon": "app/assets/icon.icns"
+  }
+}
