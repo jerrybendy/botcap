@@ -88,6 +88,9 @@ export default {
     }
 
     remote.Menu.setApplicationMenu(remote.Menu.buildFromTemplate(template))
+
+    // Hide menus on windows and linux
+    remote.getCurrentWindow().setMenuBarVisibility(false)
   }
 }
 

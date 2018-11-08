@@ -11,9 +11,6 @@ const DEV_MODE = process.argv.indexOf('--devMode') >= 0
 app.on('ready', function () {
   createWindow()
 
-  // Hide menus on windows and linux
-  win.setMenuBarVisibility(false)
-
   if (DEV_MODE) {
     win.loadURL('http://localhost:8080/main.html?platform=' + process.platform)
     win.webContents.openDevTools()
