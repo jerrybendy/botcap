@@ -62,9 +62,12 @@
     methods: {
       onInputKeyPress(event) {
         if (event.keyCode === 13) {
+          if (!this.inputValue) return
+          const srcUrl = (this.inputValue.indexOf('://') < 0 ? 'http://' : '') + this.inputValue
+
           this.$store.commit('UPDATE_PAGE', {
             id: this.currentPageId,
-            srcUrl: this.inputValue,
+            srcUrl,
           })
         }
       },

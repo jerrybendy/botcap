@@ -32,7 +32,6 @@ export default new Vuex.Store({
     },
     UPDATE_PAGE(state, params) {
       const page = state.pages.find(item => item.id === params.id)
-      if (page.srcUrl && page.srcUrl.indexOf('://') < 0) page.srcUrl = 'http://' + page.srcUrl
       if (page) {
         Object.assign(page, params)
       }
