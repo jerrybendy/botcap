@@ -3,15 +3,33 @@
            :class="{active: isActive}"
            :src="page.srcUrl"
            frameborder="0"
+           @load-commit="loadCommit"
            @did-finish-load="didFinishLoad"
-           @page-title-updated="pageTitleUpdated"
-           @page-favicon-updated="pageFaviconUpdated"
-           @did-navigate="didNavigate"
-           @did-navigate-in-page="didNavigateInPage"
-           @new-window="newWindow"
+           @did-fail-load="didFailLoad"
+           @did-frame-finish-load="didFrameFinishLoad"
            @did-start-loading="didStartLoading"
            @did-stop-loading="didStopLoading"
            @dom-ready.once="domReady"
+           @page-title-updated="pageTitleUpdated"
+           @page-favicon-updated="pageFaviconUpdated"
+           @enter-html-full-screen="enterHtmlFullScreen"
+           @leave-html-full-screen="leaveHtmlFullScreen"
+           @console-message="consoleMessage"
+           @found-in-page="foundInPage"
+           @new-window="newWindow"
+           @will-navigate="willNavigate"
+           @did-navigate="didNavigate"
+           @did-navigate-in-page="didNavigateInPage"
+           @close="close"
+           @ipc-message="ipcMessage"
+           @crashed="crashed"
+           @gpu-crashed="gpuCrashed"
+           @plugin-crashed="pluginCrashed"
+           @destroyed="destroyed"
+           @media-started-playing="mediaStartedPlaying"
+           @media-paused="mediaPaused"
+           @did-change-theme-color="didChangeThemeColor"
+           @update-target-url="updateTargetUrl"
   ></webview>
 </template>
 
@@ -35,9 +53,136 @@
       this.messageBus.$off('navigate', this.doNavigate)
     },
     methods: {
-      domReady() {
+      loadCommit(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('loadCommit', event)
+      },
+      didFinishLoad(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didFinishLoad', event)
+        const webview = this.$refs.webview
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          title: webview.getTitle(),
+          url: webview.getURL(),
+          isLoading: false,
+        })
+      },
+      didFailLoad(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didFailLoad', event)
+      },
+      didFrameFinishLoad(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didFrameFinishLoad', event)
+      },
+      didStartLoading(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didStartLoading', event)
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          isLoading: true,
+        })
+      },
+      didStopLoading(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didStopLoading', event)
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          isLoading: false,
+        })
+      },
+      domReady(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('domReady', event)
         this.$refs.webview.getWebContents().on('context-menu', this.onContextMenu)
       },
+      pageTitleUpdated(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('pageTitleUpdated', event)
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          title: event.title,
+        })
+      },
+      pageFaviconUpdated(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('pageFaviconUpdated', event)
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          favicon: event.favicons[0] || '',
+        })
+      },
+      enterHtmlFullScreen() {
+        if (process.env.NODE_ENV !== 'production') console.debug('pageFaviconUpdated')
+      },
+      leaveHtmlFullScreen() {
+        if (process.env.NODE_ENV !== 'production') console.debug('leaveHtmlFullScreen')
+      },
+      consoleMessage(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('consoleMessage', event)
+      },
+      foundInPage(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('foundInPage', event)
+      },
+      newWindow(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('newWindow', event)
+        if (event.url === 'about:blank') return
+
+        let isNavigate = true
+        if (event.disposition === 'background-tab') {
+          isNavigate = false
+        }
+        this.$store.dispatch('ADD_NEW_PAGE', {
+          srcUrl: event.url,
+          isNavigate,
+        })
+      },
+      willNavigate(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('willNavigate', event)
+      },
+      didNavigate(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didNavigate', event)
+        this.$store.commit('UPDATE_PAGE', {
+          id: this.id,
+          url: event.url,
+          canGoBack: this.$refs.webview.canGoBack(),
+          canGoForward: this.$refs.webview.canGoForward(),
+        })
+      },
+      didNavigateInPage(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didNavigateInPage', event)
+        if (event.isMainFrame) {
+          this.$store.commit('UPDATE_PAGE', {
+            id: this.id,
+            url: event.url,
+            canGoBack: this.$refs.webview.canGoBack(),
+            canGoForward: this.$refs.webview.canGoForward(),
+          })
+        }
+      },
+      close() {
+        if (process.env.NODE_ENV !== 'production') console.debug('close')
+      },
+      ipcMessage(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('ipcMessage', event)
+      },
+      crashed () {
+        if (process.env.NODE_ENV !== 'production') console.debug('crashed')
+      },
+      gpuCrashed () {
+        if (process.env.NODE_ENV !== 'production') console.debug('gpuCrashed')
+      },
+      pluginCrashed () {
+        if (process.env.NODE_ENV !== 'production') console.debug('pluginCrashed')
+      },
+      destroyed () {
+        if (process.env.NODE_ENV !== 'production') console.debug('destroyed')
+      },
+      mediaStartedPlaying () {
+        if (process.env.NODE_ENV !== 'production') console.debug('mediaStartedPlaying')
+      },
+      mediaPaused () {
+        if (process.env.NODE_ENV !== 'production') console.debug('mediaPaused')
+      },
+      didChangeThemeColor (event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('didChangeThemeColor', event)
+      },
+      updateTargetUrl(event) {
+        if (process.env.NODE_ENV !== 'production') console.debug('updateTargetUrl', event.url)
+      },
+
       doNavigate(method) {
         if (!this.isActive) {
           return
@@ -52,69 +197,6 @@
           case 'REFRESH':
             this.$refs.webview.reload()
         }
-      },
-      didFinishLoad() {
-        const webview = this.$refs.webview
-        this.$store.commit('UPDATE_PAGE', {
-          id: this.id,
-          title: webview.getTitle(),
-          url: webview.getURL(),
-          isLoading: false,
-        })
-      },
-      pageTitleUpdated(event) {
-        this.$store.commit('UPDATE_PAGE', {
-          id: this.id,
-          title: event.title,
-        })
-      },
-      pageFaviconUpdated(event) {
-        this.$store.commit('UPDATE_PAGE', {
-          id: this.id,
-          favicon: event.favicons[0] || '',
-        })
-      },
-      didNavigate(event) {
-        this.$store.commit('UPDATE_PAGE', {
-          id: this.id,
-          url: event.url,
-          canGoBack: this.$refs.webview.canGoBack(),
-          canGoForward: this.$refs.webview.canGoForward(),
-        })
-      },
-      didNavigateInPage(event) {
-        if (event.isMainFrame) {
-          this.$store.commit('UPDATE_PAGE', {
-            id: this.id,
-            url: event.url,
-            canGoBack: this.$refs.webview.canGoBack(),
-            canGoForward: this.$refs.webview.canGoForward(),
-          })
-        }
-      },
-      newWindow(event) {
-        if (event.url === 'about:blank') return
-
-        let isNavigate = true
-        if (event.disposition === 'background-tab') {
-          isNavigate = false
-        }
-        this.$store.dispatch('ADD_NEW_PAGE', {
-          srcUrl: event.url,
-          isNavigate,
-        })
-      },
-      didStartLoading() {
-        this.$store.commit('UPDATE_PAGE', {
-          id: this.id,
-          isLoading: true,
-        })
-      },
-      didStopLoading() {
-        this.$store.commit('UPDATE_PAGE', {
-          id: this.id,
-          isLoading: false,
-        })
       },
       onContextMenu(event, params) {
         const self = this,
