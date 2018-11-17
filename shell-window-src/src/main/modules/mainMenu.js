@@ -4,6 +4,8 @@ import messageBus from './messageBus'
 
 export default {
   register() {
+    const isMac = PLATFORM === 'darwin'
+
     const template = [
       {
         label: '文件',
@@ -21,7 +23,7 @@ export default {
           {type: 'separator'},
           {
             label: '关闭标签页',
-            accelerator: 'CommandOrControl+W',
+            accelerator: isMac ? 'CommandOrControl+W' : 'Control+F4',
             click() {
               store.dispatch('CLOSE_PAGE', {id: store.state.currentPageId})
             }
@@ -34,7 +36,7 @@ export default {
         submenu: [
           {
             label: '重新加载',
-            accelerator: 'CommandOrControl+R',
+            accelerator: isMac ? 'CommandOrControl+R' : 'F5',
             click() {
               const bus = messageBus.getMessageBus()
               bus.$emit('navigate', 'REFRESH')

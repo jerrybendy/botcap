@@ -44,7 +44,7 @@ function createWindow() {
     width,
     height,
     resizable: true,
-    // frame: process.platform !== 'win32',
+    frame: process.platform !== 'win32',
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#FFFFFF',
   })

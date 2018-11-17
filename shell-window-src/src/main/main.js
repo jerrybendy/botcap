@@ -1,26 +1,18 @@
 import Vue from 'vue'
-import {remote} from 'electron'
 import App from './App.vue'
 import store from './store'
+import browserWindowStatusClasses from './modules/browserWindowStatusClasses'
 import mainMenu from './modules/mainMenu'
 import messageBus from './modules/messageBus'
 
-const browserWindow = remote.getCurrentWindow()
-
 Vue.config.productionTip = false
 
-var query = new URLSearchParams(location.search)
-
-document.body.classList.add(query.get('platform'))
-
-browserWindow.on('enter-full-screen', function() {
-  document.body.classList.add('fullscreen')
-})
-browserWindow.on('leave-full-screen', function() {
-  document.body.classList.remove('fullscreen')
-})
+// Add global variables
+const query = new URLSearchParams(location.search)
+window.PLATFORM = query.get('platform')
 
 // register modules
+browserWindowStatusClasses.register()
 messageBus.register()
 mainMenu.register()
 

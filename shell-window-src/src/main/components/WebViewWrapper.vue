@@ -200,6 +200,7 @@
       },
       onContextMenu(event, params) {
         const self = this,
+          isMac = PLATFORM === 'darwin',
           $webview = this.$refs.webview,
           editFlags = params.editFlags,
           menuItems = []
@@ -231,7 +232,7 @@
 
         menuItems.push({label: '后退', enabled: $webview.canGoBack(), click() {$webview.goBack()}})
         menuItems.push({label: '前进', enabled: $webview.canGoForward(), click() {$webview.goForward()}})
-        menuItems.push({label: '重新加载', accelerator: 'CommandOrControl+R', click() {$webview.reload()}})
+        menuItems.push({label: '重新加载', accelerator: isMac ? 'CommandOrControl+R' : 'F5', click() {$webview.reload()}})
         menuItems.push({type: 'separator'})
 
         menuItems.push({label: '查看元素', click() {$webview.inspectElement(params.x, params.y)}})

@@ -28,6 +28,7 @@
       },
       onContextMenu() {
         const self = this
+        const isMac = PLATFORM === 'darwin'
         const menu = remote.Menu.buildFromTemplate([
           {
             label: '打开新的标签页',
@@ -44,14 +45,14 @@
           },
           {
             label: '重新加载',
-            accelerator: 'CommandOrControl+R',
+            accelerator: isMac ? 'CommandOrControl+R' : 'F5',
             click() {
               self.messageBus.$emit('navigate', 'REFRESH')
             }
           },
           {
             label: '关闭标签页',
-            accelerator: 'CommandOrControl+W',
+            accelerator: isMac ? 'CommandOrControl+W' : 'Control+F4',
             click() {
               self.onClose()
             }
