@@ -206,36 +206,36 @@
           menuItems = []
 
         if (params.linkURL) {
-          menuItems.push({label: '在新标签页中打开链接', click() {
+          menuItems.push({label: 'Open Link in New Tab', click() {
             self.$store.dispatch('ADD_NEW_PAGE', {srcUrl: params.linkURL, isNavigate: true,})
           }})
-          menuItems.push({label: '复制链接地址', click() {clipboard.writeText(params.linkURL)}})
+          menuItems.push({label: 'Copy Link Address', click() {clipboard.writeText(params.linkURL)}})
           menuItems.push({type: 'separator'})
         }
 
         if (params.hasImageContents) {
-          menuItems.push({label: '在新标签页中打开图片', click() {
+          menuItems.push({label: 'Open Image in New Tab', click() {
             self.$store.dispatch('ADD_NEW_PAGE', {srcUrl: params.srcURL, isNavigate: true,})
           }})
 
-          menuItems.push({label: '复制图片地址', click() {clipboard.writeText(params.srcURL)}})
+          menuItems.push({label: 'Copy Image Address', click() {clipboard.writeText(params.srcURL)}})
           menuItems.push({type: 'separator'})
         }
 
         if (editFlags.canCopy || editFlags.canPaste) {
-          if (editFlags.canCut) menuItems.push({label: '剪切', role: 'cut'})
-          if (editFlags.canCopy) menuItems.push({label: '复制', role: 'copy'})
-          if (editFlags.canPaste) menuItems.push({label: '粘贴', role: 'paste'})
-          if (editFlags.canSelectAll) menuItems.push({label: '选择全部', role: 'selectAll'})
+          if (editFlags.canCut) menuItems.push({role: 'cut'})
+          if (editFlags.canCopy) menuItems.push({role: 'copy'})
+          if (editFlags.canPaste) menuItems.push({role: 'paste'})
+          if (editFlags.canSelectAll) menuItems.push({role: 'selectAll'})
           menuItems.push({type: 'separator'})
         }
 
-        menuItems.push({label: '后退', enabled: $webview.canGoBack(), click() {$webview.goBack()}})
-        menuItems.push({label: '前进', enabled: $webview.canGoForward(), click() {$webview.goForward()}})
-        menuItems.push({label: '重新加载', accelerator: isMac ? 'CommandOrControl+R' : 'F5', click() {$webview.reload()}})
+        menuItems.push({label: 'Back', enabled: $webview.canGoBack(), click() {$webview.goBack()}})
+        menuItems.push({label: 'Forward', enabled: $webview.canGoForward(), click() {$webview.goForward()}})
+        menuItems.push({label: 'Reload', accelerator: isMac ? 'CommandOrControl+R' : 'F5', click() {$webview.reload()}})
         menuItems.push({type: 'separator'})
 
-        menuItems.push({label: '查看元素', click() {$webview.inspectElement(params.x, params.y)}})
+        menuItems.push({label: 'Inspect', click() {$webview.inspectElement(params.x, params.y)}})
 
         const menu = remote.Menu.buildFromTemplate(menuItems)
         menu.popup({window: remote.getCurrentWindow()})

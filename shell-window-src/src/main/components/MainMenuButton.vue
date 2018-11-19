@@ -14,7 +14,7 @@
         const self = this
         const menu = remote.Menu.buildFromTemplate([
           {
-            label: '打开新的标签页',
+            label: 'New Tab',
             click() {
               self.$store.dispatch('ADD_NEW_PAGE', {
                 srcUrl: '',

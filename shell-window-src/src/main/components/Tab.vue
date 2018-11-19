@@ -31,7 +31,7 @@
         const isMac = PLATFORM === 'darwin'
         const menu = remote.Menu.buildFromTemplate([
           {
-            label: '打开新的标签页',
+            label: 'New Tab',
             accelerator: 'CommandOrControl+N',
             click() {
               self.$store.dispatch('ADD_NEW_PAGE', {
@@ -44,14 +44,14 @@
             type: 'separator',
           },
           {
-            label: '重新加载',
+            label: 'Reload',
             accelerator: isMac ? 'CommandOrControl+R' : 'F5',
             click() {
               self.messageBus.$emit('navigate', 'REFRESH')
             }
           },
           {
-            label: '关闭标签页',
+            label: 'Close Tab',
             accelerator: isMac ? 'CommandOrControl+W' : 'Control+F4',
             click() {
               self.onClose()

@@ -1,9 +1,9 @@
 <template>
   <div class="windows-controls">
-    <button class="min" title="最小化" @click="min">&#xE921;</button>
-    <button class="max" title="最大化" @click="max">&#xE922;</button>
-    <button class="unmax" title="还原" @click="unmax">&#xE923;</button>
-    <button class="close" title="关闭" @click="close">&#xE8BB;</button>
+    <button class="min" title="Minmize" @click="min">&#xE921;</button>
+    <button class="max" title="Maximize" @click="max">&#xE922;</button>
+    <button class="unmax" title="Restore" @click="unmax">&#xE923;</button>
+    <button class="close" title="Close" @click="close">&#xE8BB;</button>
   </div>
 </template>
 

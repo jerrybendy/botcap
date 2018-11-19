@@ -8,10 +8,10 @@ export default {
 
     const template = [
       {
-        label: '文件',
+        label: 'File',
         submenu: [
           {
-            label: '打开新的标签页',
+            label: 'New Tab',
             accelerator: 'CommandOrControl+N',
             click() {
               store.dispatch('ADD_NEW_PAGE', {
@@ -22,7 +22,7 @@ export default {
           },
           {type: 'separator'},
           {
-            label: '关闭标签页',
+            label: 'Close Tab',
             accelerator: isMac ? 'CommandOrControl+W' : 'Control+F4',
             click() {
               store.dispatch('CLOSE_PAGE', {id: store.state.currentPageId})
@@ -32,10 +32,10 @@ export default {
       },
       {role: 'editMenu'},
       {
-        label: '视图',
+        label: 'View',
         submenu: [
           {
-            label: '重新加载',
+            label: 'Reload',
             accelerator: isMac ? 'CommandOrControl+R' : 'F5',
             click() {
               const bus = messageBus.getMessageBus()

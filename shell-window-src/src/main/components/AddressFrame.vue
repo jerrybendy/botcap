@@ -74,11 +74,11 @@
       onInputContextMenu() {
         const webContents = remote.getCurrentWindow().webContents
         const menu = remote.Menu.buildFromTemplate([
-          {label: '剪切', click() {webContents.cut()}},
-          {label: '复制', click() {webContents.copy()}},
-          {label: '粘贴', click() {webContents.pasteAndMatchStyle()}},
+          {role: 'cut', click() {webContents.cut()}},
+          {role: 'copy', click() {webContents.copy()}},
+          {role: 'paste', click() {webContents.pasteAndMatchStyle()}},
           {type: 'separator'},
-          {label: '选择全部', click() {webContents.selectAll()}},
+          {role: 'selectAll', click() {webContents.selectAll()}},
         ])
 
         menu.popup({window: remote.getCurrentWindow()})
