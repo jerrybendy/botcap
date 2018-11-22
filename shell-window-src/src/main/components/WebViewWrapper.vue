@@ -181,6 +181,7 @@
       },
       updateTargetUrl(event) {
         if (process.env.NODE_ENV !== 'production') console.debug('updateTargetUrl', event.url)
+        this.$store.commit('UPDATE_TARGET_URL', event.url)
       },
 
       doNavigate(method) {

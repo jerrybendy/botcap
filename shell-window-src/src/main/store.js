@@ -19,6 +19,7 @@ export default new Vuex.Store({
     ],
 
     currentPageId: 0,
+    targetUrl: '',  // The URL which the mouse over
   },
   mutations: {
     SET_CURRENT_PAGE_ID(state, id) {
@@ -35,7 +36,10 @@ export default new Vuex.Store({
       if (page) {
         Object.assign(page, params)
       }
-    }
+    },
+    UPDATE_TARGET_URL(state, targetUrl) {
+      state.targetUrl = targetUrl
+    },
   },
   actions: {
     ADD_NEW_PAGE(context, {srcUrl = '', isNavigate = true} = {}) {
