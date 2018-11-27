@@ -41,12 +41,13 @@
   }
 </script>
 
-<style>
+<style lang="less">
+  @import '../../shared/styles/variables';
 
   #nav {
     display: flex;
     align-items: center;
-    height: 37px;
+    height: @renderer__nav-height;
     padding: 0 8px 0 4px;
     background: #FFF;
     border-bottom: 1px solid #b6b4b6;

@@ -34,28 +34,32 @@
   }
 </script>
 
-<style>
+<style lang="less">
+  @import '../../shared/styles/variables';
+  @import '../../shared/styles/mixins';
+
   #webviews {
     position: relative;
-    height: calc(100vh - 80px);
-  }
+    height: calc(100vh - @renderer__tabs-height - @renderer__nav-height);
 
-  #webviews .target-url {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    max-width: 80vw;
-    padding: 3px 40px 3px 3px;
-    color: #717375;
-    font-size: 12px;
-    border-radius: 0 4px 0 0;
-    border: 1px solid #a1a1a1;
-    box-shadow: 0 2px 7px 0 rgba(0,0,0,0.4);
-    z-index: 999;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+    body.show-downloads & {
+      height: calc(100vh - @renderer__tabs-height - @renderer__nav-height - @renderer__downloads-height);
+    }
 
+    .target-url {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      max-width: 80vw;
+      padding: 3px 40px 3px 3px;
+      color: #717375;
+      font-size: 12px;
+      border-radius: 0 4px 0 0;
+      border: 1px solid #a1a1a1;
+      box-shadow: 0 2px 7px 0 rgba(0,0,0,0.4);
+      z-index: 999;
+      .text-overflow();
+    }
+  }
 
 </style>

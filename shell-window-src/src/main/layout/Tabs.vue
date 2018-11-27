@@ -51,26 +51,28 @@
   }
 </script>
 
-<style>
+<style lang="less">
+  @import '../../shared/styles/variables';
+  @import '../../shared/styles/mixins';
 
   #tabs {
     position: relative;
     padding: 8px 8px 0;
     background: #dee1e6;
     -webkit-app-region: drag;
-  }
 
-  body.win32 #tabs {
-    padding-right: 170px;
-  }
+    body.win32 & {
+      padding-right: 170px;
+    }
 
-  .darwin:not(.fullscreen) #tabs {
-    padding-left: 78px;
-  }
+    .darwin:not(.fullscreen) & {
+      padding-left: 78px;
+    }
 
-  #tabs .tab-content {
-    display: flex;
-    height: 35px;
+    .tab-content {
+      display: flex;
+      height: @renderer__tabs-height - 8px;  // 8px is the padding-top of #tabs
+    }
   }
 
   #tabs .tab {
@@ -90,16 +92,14 @@
     content: " ";
     position: absolute;
     right: 0;
-    width: 1px;
-    height: 20px;
+    .rectangle(1px, 20px);
     background: #a2a6ab;
     transition: background .2s linear;
   }
 
   #tabs .tab-favicon {
     display: block;
-    width: 16px;
-    height: 16px;
+    .square(16px);
     margin-right: 8px;
   }
 
@@ -118,8 +118,7 @@
   }
 
   #tabs .tab-close {
-    width: 16px;
-    height: 16px;
+    .square(16px);
     padding: 1px;
     border-radius: 50%;
   }
@@ -129,8 +128,7 @@
   }
 
   #tabs .tab-close svg {
-    width: 14px;
-    height: 14px;
+    .square(14px);
   }
 
   #tabs .tab:hover {
@@ -147,8 +145,7 @@
 
   #tabs .add-tab {
     align-self: center;
-    width: 28px;
-    height: 28px;
+    .square(28px);
     padding: 5px;
     margin: 0 8px;
     border-radius: 50%;
@@ -165,8 +162,7 @@
   }
 
   #tabs .add-tab svg {
-    width: 18px;
-    height: 18px;
+    .square(18px);
   }
 
 </style>

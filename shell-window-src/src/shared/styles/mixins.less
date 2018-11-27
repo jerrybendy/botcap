@@ -1,0 +1,15 @@
+
+.text-overflow() {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.rectangle(@width, @height) {
+  width: @width;
+  height: @height;
+}
+
+.square(@width) {
+  .rectangle(@width, @width);
+}

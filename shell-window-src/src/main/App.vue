@@ -24,7 +24,9 @@
   }
 </script>
 
-<style>
+<style lang="less">
+  @import '../shared/styles/variables';
+
   * {
     box-sizing: border-box;
     user-select: none;
@@ -34,7 +36,7 @@
     padding: 0;
     margin: 0;
     height: 100%;
-    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, "微软雅黑", Arial, sans-serif;
+    font-family: @common-font-family;
     overflow: hidden;
   }
 
@@ -46,7 +48,7 @@
   }
 
   input {
-    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, "微软雅黑", Arial, sans-serif;
+    font-family: @common-font-family;
     user-select: text;
   }
 

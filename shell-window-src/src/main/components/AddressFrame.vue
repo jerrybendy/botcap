@@ -106,7 +106,8 @@
   }
 </script>
 
-<style>
+<style lang="less">
+  @import '../../shared/styles/mixins';
 
   #nav .address {
     flex: 1;
@@ -132,8 +133,7 @@
   }
 
   #nav .security-identifier {
-    width: 16px;
-    height: 16px;
+    .square(16px);
     background: url(../../shared/images/shell-window-address-info.svg);
   }
 
@@ -145,8 +145,7 @@
     display: block;
     border: none;
     outline: none;
-    width: 1px;
-    height: 16px;
+    .rectangle(1px, 16px);
     background: #9d9e9f;
     margin: 0 8px;
   }
@@ -166,9 +165,7 @@
   #nav .address:not(.active) .address-url-view {
     display: flex !important;
     width: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    .text-overflow();
   }
 
   #nav .address.active .address-url-edit {
