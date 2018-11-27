@@ -3,6 +3,7 @@
     <tabs></tabs>
     <navigation></navigation>
     <webview-container></webview-container>
+    <downloads-bar></downloads-bar>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
   import Tabs from './layout/Tabs'
   import Navigation from './layout/Navigation'
   import WebviewContainer from './layout/WebviewContainer'
+  import DownloadsBar from './layout/DownloadsBar'
 
   export default {
     name: 'app',
@@ -17,6 +19,7 @@
       Tabs,
       Navigation,
       WebviewContainer,
+      DownloadsBar,
     },
     computed: {
 

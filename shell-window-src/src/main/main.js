@@ -12,8 +12,8 @@ const query = new URLSearchParams(location.search)
 window.PLATFORM = query.get('platform')
 
 // register modules
+messageBus.register()  // Message bus is a requirement for other modules, so it MUST be the first module
 browserWindowStatusClasses.register()
-messageBus.register()
 mainMenu.register()
 
 
