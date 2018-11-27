@@ -16,6 +16,12 @@ module.exports = function registerProtocols() {
         })
       }
 
+      if (parsed.host === 'resources') {
+        return callback({
+          path: join(__dirname, '../../build-in-pages/resources', parsed.path)
+        })
+      }
+
       return callback({
         path: join(__dirname, '../../build-in-pages', parsed.path)
       })
