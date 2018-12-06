@@ -1,23 +1,29 @@
 const electron = require('electron')
 const registerProtocols = require('./utils/registerProtocols')
+const modulesManager = require('./modules')
 
 const {app, BrowserWindow} = electron
 
+// app.commandLine.appendSwitch('lang', 'zh-CN')
 
 let win = null
 
 const DEV_MODE = process.argv.indexOf('--devMode') >= 0
+
+modulesManager.register()
 
 app.on('ready', function () {
   createWindow()
 
   if (DEV_MODE) {
     win.loadURL('http://localhost:8080/main.html?platform=' + process.platform)
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 
   } else {
     win.loadURL(`file://${__dirname}/../renderer/main.html?platform=${process.platform}`)
   }
+
+  modulesManager.trigger('onAppReady', win)
 
   win.on('closed', function () {
     win = null
