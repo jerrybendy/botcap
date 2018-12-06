@@ -4,6 +4,7 @@ import store from './store'
 import browserWindowStatusClasses from './modules/browserWindowStatusClasses'
 import mainMenu from './modules/mainMenu'
 import messageBus from './modules/messageBus'
+import download from './modules/download'
 
 Vue.config.productionTip = false
 
@@ -15,6 +16,7 @@ window.PLATFORM = query.get('platform')
 messageBus.register()  // Message bus is a requirement for other modules, so it MUST be the first module
 browserWindowStatusClasses.register()
 mainMenu.register()
+download.register()
 
 
 new Vue({

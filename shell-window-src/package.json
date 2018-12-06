@@ -29,6 +29,6 @@
     }
   },
   "browserslist": [
-    "last 2 versions"
+    "chrome >= 66"
   ]
 }

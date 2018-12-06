@@ -1,12 +1,36 @@
 <template>
   <div class="download-item">
-    
+    <radial-progress class="download-progress" :progress="60">
+      <img :src="icon" class="download-file-icon" alt="">
+    </radial-progress>
+
+
   </div>
 </template>
 
 <script>
+  import {remote} from 'electron'
+  import RadialProgress from './RadialProgress'
+
   export default {
-    name: "DownloadItem"
+    name: "DownloadItem",
+    components: {
+      RadialProgress,
+    },
+    data() {
+      return {
+        icon: '',
+      }
+    },
+    created() {
+      const self = this
+      remote.app.getFileIcon('/abc.exe222', {size: 'normal'}, function(error, icon) {
+        if (icon) {
+          self.icon = icon.toDataURL()
+
+        }
+      })
+    }
   }
 </script>
 
@@ -39,6 +63,16 @@
     &:active {
       background: #e0e0e1;
     }
+  }
+
+  .download-progress {
+    margin-right: 8px;
+  }
+
+  .download-file-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
   }
 
 </style>
