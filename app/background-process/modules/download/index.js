@@ -1,5 +1,7 @@
 const electron = require('electron')
 const downloadHandler = require('./downloadHandler')
+const ipcListener = require('./IPCListener')
+const memoryStore = require('../../utils/memoryStore')
 
 const {session} = electron
 
@@ -7,12 +9,27 @@ const {session} = electron
 module.exports = {
   onAppReady(win) {
 
+    win.setSheetOffset(80)
+
+
+    // Register ipc listeners
+    ipcListener(win)
+
     /*
-     * 收到新的下载请求时触发
+     * TODO Rewrite download path
+     */
+
+    /*
+     * Will be triggered when get a new download request
      */
     session.defaultSession.on('will-download', (event, item) => {
 
-      const savePath = downloadHandler.getDownloadFilePath(item.getFilename())
+      // Try to get savePath from memory store
+      let savePath = memoryStore.getAndRemove('download__tmp-filename')
+
+      if (!savePath) {
+        savePath = downloadHandler.getDownloadFilePath(item.getFilename())
+      }
 
       item.setSavePath(savePath)
 

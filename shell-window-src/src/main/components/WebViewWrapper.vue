@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import {remote, clipboard} from 'electron'
+  import {remote, clipboard, ipcRenderer} from 'electron'
 
   export default {
     name: "WebViewWrapper",
@@ -218,7 +218,7 @@
           menuItems.push({label: 'Open Image in New Tab', click() {
             self.$store.dispatch('ADD_NEW_PAGE', {srcUrl: params.srcURL, isNavigate: true,})
           }})
-
+          menuItems.push({label: 'Save Image As...', click() {ipcRenderer.send('download__save-file-as', params.srcURL)}})
           menuItems.push({label: 'Copy Image Address', click() {clipboard.writeText(params.srcURL)}})
           menuItems.push({type: 'separator'})
         }
