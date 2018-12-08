@@ -7,5 +7,10 @@
     "name": "Jerry Bendy ",
     "email": "jerry@icewingcc.com"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lowdb": "^1.0.0",
+    "shortid": "^2.2.14",
+    "uuid": "^3.3.2"
+  }
 }

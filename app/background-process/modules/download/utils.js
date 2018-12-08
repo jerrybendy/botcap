@@ -37,3 +37,26 @@ exports.getDownloadFilePath = function(filename) {
   return folder + targetName + ext
 }
 
+/**
+ * Get common info frm a downloadItem object
+ * @param downloadItem
+ * @returns {Object}
+ */
+exports.getDownloadItemInfo = function(downloadItem) {
+  return {
+    url: downloadItem.getURL(),
+    savePath: downloadItem.getSavePath(),
+    filename: downloadItem.getFilename(),
+    mimeType: downloadItem.getMimeType(),
+    totalBytes: downloadItem.getTotalBytes(),
+    receivedBytes: downloadItem.getReceivedBytes(),
+    contentDisposition: downloadItem.getContentDisposition(),
+    state: downloadItem.getState(),
+    urlChain: downloadItem.getURLChain(),
+    lastModifiedTime: downloadItem.getLastModifiedTime(),
+    eTag: downloadItem.getETag(),
+    startTime: ~~downloadItem.getStartTime(),
+    isPaused: downloadItem.isPaused(),
+    canResume: downloadItem.canResume(),
+  }
+}

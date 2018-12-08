@@ -1,7 +1,10 @@
 const electron = require('electron')
+const shortId = require('shortid')
 const downloadHandler = require('./downloadHandler')
 const ipcListener = require('./IPCListener')
 const memoryStore = require('../../utils/memoryStore')
+const {getDownloadItemInfo} = require('./utils')
+const db = require('./db')
 
 const {session} = electron
 
@@ -33,22 +36,17 @@ module.exports = {
 
       item.setSavePath(savePath)
 
-      win.webContents.send('download__start-download', {
-        url: item.getURL(),
-        savePath: item.getSavePath(),
-        filename: item.getFilename(),
-        mimeType: item.getMimeType(),
-        totalBytes: item.getTotalBytes(),
-        receivedBytes: item.getReceivedBytes(),
-        contentDisposition: item.getContentDisposition(),
-        state: item.getState(),
-        urlChain: item.getURLChain(),
-        lastModifiedTime: item.getLastModifiedTime(),
-        eTag: item.getETag(),
-        startTime: item.getStartTime(),
-      })
+      const id = shortId.generate()
+
+      const downloadItemInfo = Object.assign(getDownloadItemInfo(item), {id})
+
+      win.webContents.send('download__start-download', downloadItemInfo)
+
+      db.insert(downloadItemInfo)
 
       item.on('updated', (event, state) => {
+        db.update(downloadItemInfo.id, Object.assign(getDownloadItemInfo(item), {state}))
+
         if (state === 'interrupted') {
           console.log('Download is interrupted but can be resumed')
         } else if (state === 'progressing') {
@@ -61,6 +59,8 @@ module.exports = {
       })
 
       item.once('done', (event, state) => {
+        db.update(downloadItemInfo.id, Object.assign(getDownloadItemInfo(item), {state}))
+
         if (state === 'completed') {
           console.log('Download successfully')
         } else {
