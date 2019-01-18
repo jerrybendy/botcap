@@ -1,4 +1,4 @@
-import {remote} from 'electron'
+import {remote, shell} from 'electron'
 import store from '../store'
 import messageBus from './messageBus'
 
@@ -48,9 +48,10 @@ export default {
           {
             label: 'Developer',
             submenu: [
-              {label: 'Reload frame', role: 'reload', accelerator: ''},
-              {label: 'Force reload frame', role: 'forcereload', accelerator: ''},
-              {label: 'Toggle dev tools', role: 'toggledevtools', accelerator: ''},
+              {label: 'Reload Frame', role: 'reload', accelerator: ''},
+              {label: 'Force Reload Frame', role: 'forcereload', accelerator: ''},
+              {label: 'Toggle Dev Tools', role: 'toggledevtools', accelerator: ''},
+              {label: 'Open User Data Folder', click() {shell.showItemInFolder(remote.app.getPath('userData'))}}
             ]}
         ]
       },
