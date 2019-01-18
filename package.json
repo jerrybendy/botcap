@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "electron . --devMode",
     "start": "electron . ",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
     "buildForMac": "electron-builder --mac",
     "buildForWindows": "electron-builder --win",
     "postinstall": "electron-builder install-app-deps"
@@ -18,7 +16,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "electron": "^3.0.5",
+    "electron": "^4.0.1",
     "electron-builder": "^20.31.2",
     "pauls-electron-rpc": "^4.1.3"
   }
