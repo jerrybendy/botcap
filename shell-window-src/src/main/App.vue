@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="appClass">
     <tabs></tabs>
     <navigation></navigation>
     <webview-container></webview-container>
@@ -22,7 +22,11 @@
       DownloadsBar,
     },
     computed: {
-
+      appClass() {
+        return {
+          'show-downloads': this.$store.state.downloads.isShowDownloadsBar
+        }
+      }
     }
   }
 </script>

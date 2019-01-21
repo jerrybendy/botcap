@@ -8,6 +8,7 @@ module.exports = {
     plugins: [
       new webpack.ExternalsPlugin('commonjs', [
         'fs',
+        'path',
         'desktop-capturer',
         'electron',
         'ipc',

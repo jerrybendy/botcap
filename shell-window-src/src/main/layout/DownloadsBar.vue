@@ -1,12 +1,15 @@
 <template>
   <div id="downloads">
     <div class="download-items">
-      <download-item></download-item>
+      <download-item v-for="file in downloadsList"
+        :key="file.id"
+        :file="file"></download-item>
     </div>
   </div>
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   import DownloadItem from '../components/DownloadItem'
 
   export default {
@@ -17,6 +20,9 @@
     data() {
       return {}
     },
+    computed: mapState({
+      downloadsList: state => state.downloads.list,
+    }),
     methods: {}
   }
 </script>
@@ -32,6 +38,7 @@
     padding-left: 4px;
 
     .download-items {
+      display: flex;
       flex: 1;
       height: 100%;
     }

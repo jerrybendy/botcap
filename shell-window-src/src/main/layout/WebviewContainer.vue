@@ -42,7 +42,7 @@
     position: relative;
     height: calc(100vh - @renderer__tabs-height - @renderer__nav-height);
 
-    body.show-downloads & {
+    #app.show-downloads & {
       height: calc(100vh - @renderer__tabs-height - @renderer__nav-height - @renderer__downloads-height);
     }
 

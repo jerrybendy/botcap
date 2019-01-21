@@ -23,9 +23,5 @@ export default {
     browserWindow.on('maximize', function () {bodyClasses.add('maximized')})
     browserWindow.on('unmaximize', function () {bodyClasses.remove('maximized')})
 
-    // Show downloads bar or not (default is not showing)
-    bus.$on('show-downloads-bar', function() {bodyClasses.add('show-downloads')})
-    bus.$on('hide-downloads-bar', function() {bodyClasses.remove('show-downloads')})
-
   }
 }

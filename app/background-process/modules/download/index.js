@@ -45,7 +45,10 @@ module.exports = {
       db.insert(downloadItemInfo)
 
       item.on('updated', (event, state) => {
-        db.update(downloadItemInfo.id, Object.assign(getDownloadItemInfo(item), {state}))
+        const _data = Object.assign(getDownloadItemInfo(item), {id, state})
+        db.update(id, _data)
+
+        win.webContents.send('download__updated', _data)
 
         if (state === 'interrupted') {
           console.log('Download is interrupted but can be resumed')
@@ -59,7 +62,10 @@ module.exports = {
       })
 
       item.once('done', (event, state) => {
-        db.update(downloadItemInfo.id, Object.assign(getDownloadItemInfo(item), {state}))
+        const _data = Object.assign(getDownloadItemInfo(item), {id, state})
+        db.update(id, _data)
+
+        win.webContents.send('download__updated', _data)
 
         if (state === 'completed') {
           console.log('Download successfully')
