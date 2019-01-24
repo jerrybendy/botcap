@@ -5,6 +5,7 @@ const ipcListener = require('./IPCListener')
 const memoryStore = require('../../utils/memoryStore')
 const {getDownloadItemInfo} = require('./utils')
 const db = require('./db')
+const downloadItemsStore = require('./downloadItemsStore')
 
 const {session} = electron
 
@@ -40,6 +41,9 @@ module.exports = {
 
       const downloadItemInfo = Object.assign(getDownloadItemInfo(item), {id})
 
+      // Save DownloadItem to store
+      downloadItemsStore.add(id, item)
+
       win.webContents.send('download__start-download', downloadItemInfo)
 
       db.insert(downloadItemInfo)
@@ -66,6 +70,9 @@ module.exports = {
         db.update(id, _data)
 
         win.webContents.send('download__updated', _data)
+
+        // Remove DownloadItem from store
+        downloadItemsStore.remove(id)
 
         if (state === 'completed') {
           console.log('Download successfully')

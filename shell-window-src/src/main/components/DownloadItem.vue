@@ -1,6 +1,6 @@
 <template>
   <div class="download-item">
-    <radial-progress class="download-progress" :progress="percent">
+    <radial-progress class="download-progress" :progress="percent" :isCompleted="isCompleted">
       <img :src="icon" class="download-file-icon" alt="">
     </radial-progress>
 
@@ -10,12 +10,16 @@
       </p>
       <small>{{ downloadProcessString }}</small>
     </div>
+    
+    <div class="download-arrow" @click="onContextArrowClick">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#76797b" d="M256 217.9L383 345c9.4 9.4 24.6 9.4 33.9 0 9.4-9.4 9.3-24.6 0-34L273 167c-9.1-9.1-23.7-9.3-33.1-.7L95 310.9c-4.7 4.7-7 10.9-7 17s2.3 12.3 7 17c9.4 9.4 24.6 9.4 33.9 0l127.1-127z"/></svg>
+    </div>
   </div>
 </template>
 
 <script>
   import path from 'path'
-  import {remote} from 'electron'
+  import {remote, ipcRenderer} from 'electron'
   import RadialProgress from './RadialProgress'
 
   export default {
@@ -50,15 +54,68 @@
       downloadProcessString() {
         const { receivedBytes, totalBytes, state } = this.file
 
-        if (state === 'completed') return 'Completed'
-        // TODO Error status
+        switch (state) {
+          case 'completed':
+            return ''
 
-        if (!totalBytes) return 'Downloading...'
+          case 'cancelled':
+            return 'Cancelled'
 
-        const downloaded = (receivedBytes / 1024).toFixed(1)
-        const total = (totalBytes / 1024).toFixed(1)
-        return `${downloaded}/${total} MB`
+          case 'interrupted':
+            return 'Failed'
+
+          default:
+            const downloaded = (receivedBytes / 1024 / 1024).toFixed(1)
+            const total = (totalBytes / 1024 / 1024).toFixed(1)
+
+            if (!totalBytes) {
+              return `${downloaded} MB`
+            }
+
+            return `${downloaded}/${total} MB`
+        }
       },
+
+      isCompleted() {
+        const state = this.file.state
+        return ['completed', 'cancelled', 'interrupted'].indexOf(state) >= 0
+      },
+    },
+    methods: {
+      onContextArrowClick() {
+        const self = this
+        const state = this.file.state
+        const isMac = PLATFORM === 'darwin'
+        const menuTpl = []
+
+        if (state === 'completed') {
+          menuTpl.push({label: 'Open', click() { self.openFile() }})
+          // TODO Open When Done
+          menuTpl.push({type: 'separator'})
+        }
+
+        menuTpl.push({label: 'Pause', enabled: state === 'progressing' && !this.file.isPaused, click() {ipcRenderer.send('download__pause', self.file.id)}})
+        menuTpl.push({label: 'Resume', enabled: this.file.canResume, click() {ipcRenderer.send('download__resume', self.file.id)}})
+        menuTpl.push({
+          label: isMac ? 'Show in Finder' : 'Show in Explorer',
+          enabled: state === 'progressing' || state === 'completed',
+          click() {self.showInFinder()}
+        })
+        menuTpl.push({type: 'separator'})
+
+        menuTpl.push({label: 'Cancel', enabled: state === 'progressing', click() {ipcRenderer.send('download__cancel', self.file.id)}})
+
+        const menu = remote.Menu.buildFromTemplate(menuTpl)
+        menu.popup({window: remote.getCurrentWindow()})
+      },
+
+      openFile() {
+        // TODO
+      },
+
+      showInFinder() {
+        // TODO
+      }
     },
     watch: {
       'file.filename': {
@@ -88,6 +145,8 @@
 
 <style lang="less">
   @import "../../shared/styles/mixins";
+
+  @download-item-hover-bg: #f1f1f1;
   
   .download-item {
     position: relative;
@@ -109,7 +168,7 @@
     }
 
     &:hover {
-      background: #f1f1f1;
+      background: @download-item-hover-bg;
     }
 
     &:active {
@@ -154,7 +213,26 @@
       color: #828589;
       line-height: 1;
       margin-top: 4px;
+
+      &:empty {
+        display: none;
+      }
     }
   }
 
+  .download-arrow {
+    width: 24px;
+    height: 24px;
+    padding: 3px 5px;
+    border-radius: 3px;
+    transition: background .4s linear;
+
+    &:hover {
+      background: darken(@download-item-hover-bg, 10%);
+    }
+
+    &:active {
+      background: darken(@download-item-hover-bg, 20%);
+    }
+  }
 </style>

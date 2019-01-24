@@ -1,5 +1,5 @@
 <template>
-  <div class="radial-progress" :data-progress="progress">
+  <div class="radial-progress" :class="{completed: isCompleted}" :data-progress="progress">
     <div class="circle">
       <div class="mask full">
         <div class="fill"></div>
@@ -20,6 +20,10 @@
     name: "RadialProgress",
     props: {
       progress: Number,
+      isCompleted: {
+        type: Boolean,
+        'default': false,
+      }
     }
   }
 </script>
@@ -98,5 +102,14 @@
       .loop(@i + 1);
     }
     .loop(@i);
+  }
+
+  .radial-progress.completed {
+    .circle {
+      display: none;
+    }
+    .inset {
+      background-color: transparent;
+    }
   }
 </style>
