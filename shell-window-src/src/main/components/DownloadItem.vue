@@ -1,5 +1,5 @@
 <template>
-  <div class="download-item">
+  <div class="download-item" @click="openFile">
     <radial-progress class="download-progress" :progress="percent" :isCompleted="isCompleted">
       <img :src="icon" class="download-file-icon" alt="">
     </radial-progress>
@@ -11,15 +11,13 @@
       <small>{{ downloadProcessString }}</small>
     </div>
     
-    <div class="download-arrow" @click="onContextArrowClick">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#76797b" d="M256 217.9L383 345c9.4 9.4 24.6 9.4 33.9 0 9.4-9.4 9.3-24.6 0-34L273 167c-9.1-9.1-23.7-9.3-33.1-.7L95 310.9c-4.7 4.7-7 10.9-7 17s2.3 12.3 7 17c9.4 9.4 24.6 9.4 33.9 0l127.1-127z"/></svg>
-    </div>
+    <div class="download-arrow" @click.stop="onContextArrowClick"><i class="material-icons">expand_less</i></div>
   </div>
 </template>
 
 <script>
   import path from 'path'
-  import {remote, ipcRenderer} from 'electron'
+  import {remote, ipcRenderer, shell} from 'electron'
   import RadialProgress from './RadialProgress'
 
   export default {
@@ -110,12 +108,12 @@
       },
 
       openFile() {
-        // TODO
+        if (this.file.state === 'completed') shell.openItem(this.file.savePath)
       },
 
       showInFinder() {
-        // TODO
-      }
+        shell.showItemInFolder(this.file.savePath)
+      },
     },
     watch: {
       'file.filename': {
@@ -146,11 +144,10 @@
 <style lang="less">
   @import "../../shared/styles/mixins";
 
-  @download-item-hover-bg: #f1f1f1;
-  
   .download-item {
     position: relative;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     .rectangle(227px, 100%);
     padding: 0 10px;
@@ -168,7 +165,7 @@
     }
 
     &:hover {
-      background: @download-item-hover-bg;
+      background: #f1f1f1;
     }
 
     &:active {
@@ -223,16 +220,20 @@
   .download-arrow {
     width: 24px;
     height: 24px;
-    padding: 3px 5px;
+    padding-top: 4px;
+    font-size: 18px;
+    color: #76797b;
+    text-align: center;
     border-radius: 3px;
-    transition: background .4s linear;
+    transition: background .2s linear, border-radius .1s;
 
     &:hover {
-      background: darken(@download-item-hover-bg, 10%);
+      background: #edeeee;
     }
 
     &:active {
-      background: darken(@download-item-hover-bg, 20%);
+      border-radius: 50%;
+      background: #d9dada;
     }
   }
 </style>

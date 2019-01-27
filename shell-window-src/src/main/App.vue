@@ -33,6 +33,7 @@
 
 <style lang="less">
   @import '../shared/styles/variables';
+  @import '../shared/styles/materialIcons';
 
   * {
     box-sizing: border-box;
