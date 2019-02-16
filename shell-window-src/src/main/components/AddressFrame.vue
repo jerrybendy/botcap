@@ -12,14 +12,19 @@
     <div class="address-url address-url-edit">
       <input type="text" class="address-input" ref="addressInput" v-model="inputValue" @keypress="onInputKeyPress" @contextmenu.prevent="onInputContextMenu">
     </div>
+    <address-bookmark-btn />
   </div>
 </template>
 
 <script>
   import {remote} from 'electron'
+  import AddressBookmarkBtn from './AddressBookmarkBtn'
 
   export default {
     name: "AddressFrame",
+    components: {
+      AddressBookmarkBtn,
+    },
     props: {
       url: String,
     },

@@ -1,5 +1,6 @@
 
 const MODULES = [
+  require('./bookmark'),
   require('./download'),
 ]
 
