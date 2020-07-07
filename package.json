@@ -16,7 +16,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "electron": "^4.2.4",
+    "electron": "^7.2.4",
     "electron-builder": "^20.43.0",
     "pauls-electron-rpc": "^4.1.3"
   }
