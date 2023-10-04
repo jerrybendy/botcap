@@ -13,7 +13,7 @@
   "devDependencies": {
     "@babel/helper-module-imports": "^7.0.0",
     "@vue/cli-plugin-babel": "^3.12.1",
-    "@vue/cli-service": "^3.12.1",
+    "@vue/cli-service": "^5.0.8",
     "less": "^3.10.3",
     "less-loader": "^4.1.0",
     "vue-template-compiler": "^2.6.10"
